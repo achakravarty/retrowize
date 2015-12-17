@@ -52,6 +52,7 @@ describe('Lane', () => {
 			let lane = TestUtils.renderIntoDocument(
 				<Lane id={1} cards={cards} onLaneUpdated={onLaneUpdated}/>
 			);
+			lane.setState({isAddDisabled: false});
 
 			let cardsComponents = TestUtils.scryRenderedComponentsWithType(lane, Card)
 
@@ -61,7 +62,7 @@ describe('Lane', () => {
 
 			newCardContent.setValue('New Card');
 
-			let createCard = TestUtils.findRenderedDOMComponentWithClass(lane, 'add-btn');
+			let createCard = TestUtils.findRenderedDOMComponentWithClass(lane, 'add-card');
 			TestUtils.Simulate.touchTap(createCard);
 
 			expect(BoardActions.addCard.mock.calls.length).toBe(1);

@@ -28,12 +28,12 @@ var AddLane = React.createClass({
     return (
       <div className="new-lane">
         <TextField className="new-lane-title" onChange={this.canEnableAddButton}
-          hintText="Enter lane title"
-floatingLabelText="Lane title"
-           ref="laneTitle" />
+            hintText="Enter lane title"
+            floatingLabelText="Lane title"
+            ref="laneTitle" />
         <div>
-           <RaisedButton disabled={this.state.isAddDisabled} className="add-lane-btn" label="Add New Lane" onTouchTap={this.addLane} primary={true}/>
-         </div>
+            <RaisedButton disabled={this.state.isAddDisabled} className="add-lane-btn" label="Add New Lane" onTouchTap={this.addLane} primary={true}/>
+        </div>
     </div>
     );
   }

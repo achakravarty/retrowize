@@ -23,8 +23,8 @@ constructor(){
     this.emitChange();
   }
 
-	removeLane(lane){
-		var laneIndex = _findIndex(this._lanes,{id: lane.id});
+	removeLane(laneId){
+		var laneIndex = _findIndex(this._lanes,{id: laneId});
 		this._lanes.splice(laneIndex,1);
     this.emitChange();
 	}

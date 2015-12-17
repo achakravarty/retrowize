@@ -4,6 +4,7 @@ import React from 'react'
 import Card from './card.jsx'
 import TextField from 'material-ui/lib/text-field'
 import Paper from 'material-ui/lib/paper';
+import IconButton from 'material-ui/lib/icon-button';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import boardActions from './board-actions';
@@ -41,6 +42,12 @@ var Lane = React.createClass( {
 		this.setState({isAddDisabled: disable})
 	},
 
+	removeLane(){
+		console.log('removing lane');
+			boardActions.removeLane(this.props.id);
+			console.log('removing');
+	},
+
 	render(){
 
 		var getCards = ()=>{
@@ -63,12 +70,16 @@ var Lane = React.createClass( {
 		return (
 			<Paper className="lane" zDepth={1}>
 				<div className="title">{this.props.title}</div>
-				<div>
+				<IconButton className="remove-lane" tooltip="Remove this lane" onTouchTap={this.removeLane}>
+					<FontIcon className="material-icons" color={"lightgray"} >clear</FontIcon>
+				</IconButton>
+
+				<div style={{clear: "both"}}>
 						{getCards()}
-					<TextField hintText="Enter card content" onChange={this.canEnableAddButton} floatingLabelText="Card content" multiLine={true} ref="newCardContent" style={{width: "230px"}}/>
+					<TextField hintText="Enter card content" onChange={this.canEnableAddButton} floatingLabelText="Card content" multiLine={true} ref="newCardContent" style={{width: "240px"}}/>
 
 					<span className="add-card-btn" >
-						<FloatingActionButton tooltip="Add card" onTouchTap={this.addNewCard} mini={true} disabled={this.state.isAddDisabled}>
+						<FloatingActionButton className="add-card" tooltip="Add card" onTouchTap={this.addNewCard} mini={true} disabled={this.state.isAddDisabled}>
 						  <FontIcon className="material-icons">add</FontIcon>
 						</FloatingActionButton>
 						</span>

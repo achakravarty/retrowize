@@ -43,10 +43,9 @@ describe('Board', () => {
 			);
 
 			let addLane = TestUtils.findRenderedComponentWithType(board, AddLane);
+			addLane.setState({isAddDisabled: false});
+
 			let newLaneTitle = TestUtils.findRenderedComponentWithType(addLane, TextField);
-			// console.log(newLaneTitle);
-			// console.log("--==============");
-			// console.log(newLaneTitle.children[1])
 			newLaneTitle.setValue("New Test Lane");
 
 			let addLaneBtn = TestUtils.findRenderedDOMComponentWithClass(board, 'add-lane-btn');

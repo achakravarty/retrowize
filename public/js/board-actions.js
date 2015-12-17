@@ -10,6 +10,13 @@ var BoardActions = {
      });
    },
 
+   removeLane: function(landId){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.REMOVE_LANE,
+       laneId: laneId
+     });
+   },
+
    addCard: function(card, laneId){
      AppDispatcher.dispatch({
        actionType: ActionTypes.ADD_CARD,
