@@ -33,6 +33,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "flux": "^2.1.1",
     "http-server": "^0.8.5",
     "lodash": "^3.10.1",
     "material-ui": "^0.13.4",

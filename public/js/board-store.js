@@ -1,46 +1,66 @@
-'use strict'
-import _ from 'lodash';
+import Events from 'events'
+import _ from 'lodash'
 
-class BoardService {
+var CHANGE_EVENT = 'change';
 
-	constructor() {
-		this._lanes = [
+class BoardStore extends Events.EventEmitter {
+
+constructor(){
+  super();
+	this._lanes = [
 			{id:0,  title: 'What went well?', cards: [] },
 			{id:1,  title: 'What did not go well?',  cards: []},
 			{id:2,  title: 'Action Items', cards: [] }
-		];
-	}
+		]
+  }
 
-	get lanes() {
+	getLanes() {
 		return _.cloneDeep(this._lanes);
 	}
 
 	addLane(lane) {
-		this._lanes.push(lane);
-	}
-	
+		this._lanes.push({id: this._lanes.length, title: lane.title, cards:[]});
+    this.emitChange();
+  }
+
 	removeLane(lane){
 		var laneIndex = _findIndex(this._lanes,{id: lane.id});
 		this._lanes.splice(laneIndex,1);
+    this.emitChange();
 	}
 
 	addCard(card, laneId) {
 		var lane = _.find(this._lanes, {id: laneId});
 		card.id = lane.cards.length;
 		lane.cards.push(_.cloneDeep(card));
+    this.emitChange();
 	}
-	
+
 	updateCard(card, laneId) {
 		var lane = _.find(this._lanes, {id: laneId});
 		var cardIndex = _.findIndex(lane.cards,{id: card.id});
 		lane.cards[cardIndex] = _.cloneDeep(card);
+    this.emitChange();
 	}
-	
+
 	removeCard(card, laneId) {
 		var lane = _.find(this._lanes, {id: laneId});
 		var cardIndex = _.findIndex(lane.cards,{id: card.id});
 		lane.cards.splice(cardIndex,1);
+    this.emitChange();
 	}
-}
 
-module.exports = new BoardService();
+  emitChange() {
+    this.emit(CHANGE_EVENT);
+  }
+
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback);
+  }
+
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  }
+};
+
+module.exports = new BoardStore();

@@ -4,8 +4,7 @@ import React from 'react'
 import Card from './card.jsx'
 import TextField from 'material-ui/lib/text-field'
 import FloatingActionButton from 'material-ui/lib/floating-action-button'
-
-var boardService = require('./board-service.jsx')
+import boardActions from './board-actions';
 
 var Lane = React.createClass( {
 	addNewCard(){
@@ -13,20 +12,17 @@ var Lane = React.createClass( {
 			content : this.refs.newCardContent.getValue(),
 			likes: 0
 		}
-		boardService.addCard(card,this.props.id);
+		boardActions.addCard(card,this.props.id);
 		this.refs.newCardContent.setValue('');
-		this.props.onLaneUpdated();
 	},
 
 	onLike(card) {
 		card.likes = card.likes + 1;
-		boardService.updateCard(card, this.props.id);
-		this.props.onLaneUpdated();
+		boardActions.updateCard(card, this.props.id);
 	},
 
 	removeCard(card) {
-		boardService.removeCard(card, this.props.id);
-		this.props.onLaneUpdated();
+		boardActions.removeCard(card, this.props.id);
 	},
 
 	render(){

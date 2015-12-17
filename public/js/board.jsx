@@ -3,8 +3,8 @@
 import React from 'react';
 import Lane from './lane.jsx';
 import RaisedButton from 'material-ui/lib/raised-button';
-
-var boardService  = require('./board-service.jsx');
+import BoardStore from './board-store';
+import boardActions from './board-actions';
 
 var Board = React.createClass({
 
@@ -14,24 +14,28 @@ var Board = React.createClass({
 		};
 	},
 
-	componentDidMount(){
+	componentDidMount: function() {
 		this.updateLanes();
+		BoardStore.addChangeListener(this.updateLanes);
+	},
+
+	componentWillUnmount: function() {
+		BoardStore.removeChangeListener(this.updateLanes);
 	},
 
 	updateLanes(){
-		this.setState({lanes: boardService.lanes});
+		this.setState({lanes: BoardStore.getLanes()});
 	},
 
 	addLane(){
-		boardService.addLane({title: 'New Lane'});
-		this.updateLanes();
+		boardActions.addLane({title: 'New Lane'});
 	},
 
 	render(){
 		var getLanes = () => {
 		return this.state.lanes.map((lane, index) => {
 				return (<div key={lane.id}  className="lanes">
-					  		<Lane title={lane.title} id={lane.id} cards={lane.cards} onLaneUpdated={this.updateLanes}></Lane>
+					  		<Lane title={lane.title} id={lane.id} cards={lane.cards}></Lane>
 						</div>);
 			});
 		}
