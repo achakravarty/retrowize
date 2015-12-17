@@ -8,17 +8,33 @@ import TextField from 'material-ui/lib/text-field';
 
 var AddLane = React.createClass({
 
+  getInitialState(){
+    return {
+      isAddDisabled: true
+    };
+  },
+
   addLane(){
     boardActions.addLane({title: this.refs.laneTitle.getValue()});
     this.refs.laneTitle.setValue("");
+    this.setState({isAddDisabled: true});
+  },
+
+  canEnableAddButton(){
+    this.setState({isAddDisabled: this.refs.laneTitle.getValue().length === 0})
   },
 
   render(){
     return (
       <div className="new-lane">
-        <TextField className="new-lane-title" hintText="Lane title" ref="laneTitle" />
-        <RaisedButton className="add-lane-btn" label="Add New Lane" onTouchTap={this.addLane} primary={true}/>
-      </div>
+        <TextField className="new-lane-title" onChange={this.canEnableAddButton}
+          hintText="Enter lane title"
+floatingLabelText="Lane title"
+           ref="laneTitle" />
+        <div>
+           <RaisedButton disabled={this.state.isAddDisabled} className="add-lane-btn" label="Add New Lane" onTouchTap={this.addLane} primary={true}/>
+         </div>
+    </div>
     );
   }
 });

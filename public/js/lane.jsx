@@ -3,10 +3,20 @@
 import React from 'react'
 import Card from './card.jsx'
 import TextField from 'material-ui/lib/text-field'
-import FloatingActionButton from 'material-ui/lib/floating-action-button'
+import Paper from 'material-ui/lib/paper';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import FontIcon from 'material-ui/lib/font-icon';
 import boardActions from './board-actions';
 
 var Lane = React.createClass( {
+
+	getInitialState(){
+		return {
+			color: "lightyellow",
+			isAddDisabled: true
+		}
+	},
+
 	addNewCard(){
 		let card = {
 			content : this.refs.newCardContent.getValue(),
@@ -14,6 +24,7 @@ var Lane = React.createClass( {
 		}
 		boardActions.addCard(card,this.props.id);
 		this.refs.newCardContent.setValue('');
+		this.setState({isAddDisabled: true});
 	},
 
 	onLike(card) {
@@ -25,12 +36,17 @@ var Lane = React.createClass( {
 		boardActions.removeCard(card, this.props.id);
 	},
 
+	canEnableAddButton(){
+		var disable =  this.refs.newCardContent.getValue().length === 0;
+		this.setState({isAddDisabled: disable})
+	},
+
 	render(){
 
 		var getCards = ()=>{
 			return this.props.cards.map((card, index) => {
 				return (
-					     <Card key={card.id} content={card.content} likes={card.likes}
+					     <Card key={card.id} content={card.content} likes={card.likes} color={this.state.color}
 							onLike={
 								() => {
 								this.onLike(card)
@@ -44,17 +60,21 @@ var Lane = React.createClass( {
 			});
 		}
 
-		return (<div className="lane">
-			<div className="title">{this.props.title}</div>
-			<div>
-				<TextField hintText="Feedback" ref="newCardContent"/>
-				<FloatingActionButton className="add-btn" onTouchTap={this.addNewCard} primary={true} mini={true}>
-					<span>+</span>
-				</FloatingActionButton>
-			</div>
+		return (
+			<Paper className="lane" zDepth={1}>
+				<div className="title">{this.props.title}</div>
+				<div>
+						{getCards()}
+					<TextField hintText="Enter card content" onChange={this.canEnableAddButton} floatingLabelText="Card content" multiLine={true} ref="newCardContent" style={{width: "230px"}}/>
 
-			{getCards()}
-		</div>);
+					<span className="add-card-btn" >
+						<FloatingActionButton tooltip="Add card" onTouchTap={this.addNewCard} mini={true} disabled={this.state.isAddDisabled}>
+						  <FontIcon className="material-icons">add</FontIcon>
+						</FloatingActionButton>
+						</span>
+				</div>
+
+		</Paper>);
 	}
 })
 
