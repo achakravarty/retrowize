@@ -14,7 +14,7 @@ var Board = React.createClass({
 		};
 	},
 
-	componentDidMount: function() {
+	componentWillMount: function() {
 		this.updateLanes();
 		BoardStore.addChangeListener(this.updateLanes);
 	},

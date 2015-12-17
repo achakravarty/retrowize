@@ -12,9 +12,10 @@ injectTapEventPlugin();
 
 const Card = require('../public/js/card.jsx');
 const TextField = require('material-ui/lib/text-field');
+const BoardActions = require('../public/js/board-actions');
 const RaisedButton = require('material-ui/lib/raised-button');
 
-var boardService = require('../public/js/board-service');
+var boardStore = require('../public/js/board-store');
 
 const Lane = require('../public/js/lane.jsx');
 
@@ -63,8 +64,7 @@ describe('Lane', () => {
 			let createCard = TestUtils.findRenderedDOMComponentWithClass(lane, 'add-btn');
 			TestUtils.Simulate.touchTap(createCard);
 
-			expect(boardService.addCard.mock.calls.length).toBe(1);
-			expect(onLaneUpdated).toBeCalled();
+			expect(BoardActions.addCard.mock.calls.length).toBe(1);
 	})
 
 })

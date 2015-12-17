@@ -12,7 +12,7 @@ injectTapEventPlugin();
 const Card = require('../public/js/card.jsx');
 const FontIcon = require('material-ui/lib/font-icon');
 
-var boardService = require('../public/js/board-service');
+var boardStore = require('../public/js/board-store');
 
 describe('Card', () => {
 
@@ -25,7 +25,7 @@ describe('Card', () => {
 
 		expect(content.textContent).toBe('My card');
 	});
-	
+
 	it('should have zero likes', () => {
 		let card = TestUtils.renderIntoDocument(
 			<Card content="My card" likes={0}/>
@@ -41,9 +41,9 @@ describe('Card', () => {
 
 		let like = TestUtils.findRenderedDOMComponentWithClass(card, 'like-btn');
 		TestUtils.Simulate.touchTap(like);
-		
+
 		expect(card.props.onLike).toBeCalled;
-		expect(boardService.updatedCard).toBeCalled;
+		expect(boardStore.updatedCard).toBeCalled;
 	});
 
 	it('should be able to delete card', () => {
@@ -53,9 +53,9 @@ describe('Card', () => {
 
 		let deleteBtn = TestUtils.findRenderedDOMComponentWithClass(card, 'trash-icon');
 		TestUtils.Simulate.touchTap(deleteBtn);
-		
+
 		expect(card.props.removeCard).toBeCalled;
-		expect(boardService.removeCard).toBeCalled;
+		expect(boardStore.removeCard).toBeCalled;
 	});
 
 })
