@@ -1,0 +1,1 @@
+web: npm runScript build

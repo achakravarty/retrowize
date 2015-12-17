@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "jest",
-    "start": "http-server"
+    "start": "http-server",
+    "build": "webpack"
   },
   "jest": {
     "testDirectoryName": "test",
