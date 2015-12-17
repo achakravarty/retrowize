@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Lane from './lane.jsx';
-import RaisedButton from 'material-ui/lib/raised-button';
-import BoardStore from './board-store';
-import boardActions from './board-actions';
+
+import AddLane from './add-lane.jsx';
+
+import boardStore from './board-store';
 
 var Board = React.createClass({
 
@@ -16,19 +17,15 @@ var Board = React.createClass({
 
 	componentWillMount: function() {
 		this.updateLanes();
-		BoardStore.addChangeListener(this.updateLanes);
+		boardStore.addChangeListener(this.updateLanes);
 	},
 
 	componentWillUnmount: function() {
-		BoardStore.removeChangeListener(this.updateLanes);
+		boardStore.removeChangeListener(this.updateLanes);
 	},
 
 	updateLanes(){
-		this.setState({lanes: BoardStore.getLanes()});
-	},
-
-	addLane(){
-		boardActions.addLane({title: 'New Lane'});
+		this.setState({lanes: boardStore.getLanes()});
 	},
 
 	render(){
@@ -43,10 +40,9 @@ var Board = React.createClass({
 		return (
 			<div>
 				{getLanes()}
-				<div>
-					<RaisedButton className="add-lane-btn" label="Add New Lane" onTouchTap={this.addLane} primary={true}/>
-				</div>
-			</div>)
+				<AddLane/>
+			</div>
+		)
 	 }
 })
 

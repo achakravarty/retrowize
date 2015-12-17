@@ -59,7 +59,7 @@ describe('Lane', () => {
 
 			let newCardContent = TestUtils.findRenderedComponentWithType(lane, TextField);
 
-			newCardContent.value = 'New Card';
+			newCardContent.setValue('New Card');
 
 			let createCard = TestUtils.findRenderedDOMComponentWithClass(lane, 'add-btn');
 			TestUtils.Simulate.touchTap(createCard);
