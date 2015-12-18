@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "jest",
-    "start": "http-server",
+    "start": "node api/app.js",
     "build": "webpack"
   },
   "jest": {
@@ -34,10 +34,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "co": "^4.6.0",
+    "config": "^1.17.1",
     "flux": "^2.1.1",
+    "hashcode": "^1.0.3",
     "http-server": "^0.8.5",
+    "koa": "^1.1.2",
+    "koa-body": "^1.4.0",
+    "koa-file-server": "^2.3.1",
+    "koa-passport": "^1.2.0",
+    "koa-session": "^3.3.1",
     "lodash": "^3.10.1",
     "material-ui": "^0.13.4",
+    "mongoose": "^4.3.2",
+    "passport-google-oauth2": "^0.1.6",
     "react": "^0.14.3",
     "react-dom": "^0.14.3"
   },
