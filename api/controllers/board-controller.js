@@ -12,6 +12,7 @@ class BoardController {
 	* createBoard(next) {
 		let board = {
 			owner: this.passport.user.email,
+			id: this.request.body.name,
 			lanes: []
 		}
 		this.body = yield boardService.createBoard(board);
@@ -42,7 +43,7 @@ class BoardController {
 		let card = {
 			id: id.toString(),
 			content: content,
-			votes: {},
+			votes: [],
 			createdBy: this.passport.user.email
 		}
 		this.body = yield boardService.addCard(this.params.boardId, this.params.laneId, card);

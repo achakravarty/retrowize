@@ -6,7 +6,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 class BoardService {
 
 	* getBoard(boardId) {
-		return yield Board.findById(boardId).exec();
+		return yield Board.findOne({"id": boardId}).exec();
 	}
 
 	* getOwnedBoards(owner) {

@@ -7,6 +7,18 @@ var appDispatcher = new Flux.Dispatcher();
 appDispatcher.register(function(action) {
 
   switch(action.actionType) {
+    case ActionTypes.CREATE_BOARD:
+      if (action.boardId) {
+        boardStore.createBoard(action.boardId);
+      }
+      break;
+
+    case ActionTypes.FETCH_LANES:
+      if (action.boardId) {
+        boardStore.fetchLanes(action.boardId);
+      }
+      break;
+
     case ActionTypes.ADD_LANE:
       if (action.lane) {
         boardStore.addLane(action.lane);
@@ -31,9 +43,9 @@ appDispatcher.register(function(action) {
       }
       break;
 
-    case ActionTypes.UPDATE_CARD:
+    case ActionTypes.VOTE_CARD:
       if (action.card && action.laneId !== undefined){
-        boardStore.updateCard(action.card, action.laneId);
+        boardStore.voteCard(action.card, action.laneId);
       }
       break;
     }

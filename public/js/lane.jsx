@@ -30,7 +30,7 @@ var Lane = React.createClass( {
 
 	onLike(card) {
 		card.likes = card.likes + 1;
-		boardActions.updateCard(card, this.props.id);
+		boardActions.voteCard(card, this.props.id);
 	},
 
 	removeCard(card) {
@@ -43,9 +43,7 @@ var Lane = React.createClass( {
 	},
 
 	removeLane(){
-		console.log('removing lane');
-			boardActions.removeLane(this.props.id);
-			console.log('removing');
+		boardActions.removeLane(this.props.id);
 	},
 
 	render(){
@@ -53,7 +51,7 @@ var Lane = React.createClass( {
 		var getCards = ()=>{
 			return this.props.cards.map((card, index) => {
 				return (
-					     <Card key={card.id} content={card.content} likes={card.likes} color={this.state.color}
+					     <Card key={card.id} content={card.content} likes={card.votes.length} color={this.state.color}
 							onLike={
 								() => {
 								this.onLike(card)

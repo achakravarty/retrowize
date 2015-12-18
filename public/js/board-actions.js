@@ -3,6 +3,20 @@ var ActionTypes = require('./action-types');
 
 var BoardActions = {
 
+  createBoard: function(boardId){
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.CREATE_BOARD,
+      boardId: boardId
+    });
+  },
+
+  fetchLanes: function(boardId){
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.FETCH_LANES,
+      boardId: boardId
+    });
+  },
+
   addLane: function(lane) {
      AppDispatcher.dispatch({
        actionType: ActionTypes.ADD_LANE,
@@ -33,9 +47,9 @@ var BoardActions = {
      });
    },
 
-   updateCard: function(card, laneId){
+   voteCard: function(card, laneId){
      AppDispatcher.dispatch({
-       actionType: ActionTypes.UPDATE_CARD,
+       actionType: ActionTypes.VOTE_CARD,
        card: card,
        laneId: laneId
      });
