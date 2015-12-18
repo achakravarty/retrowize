@@ -1,6 +1,7 @@
 'use strict'
 var _ = require('lodash');
 var Board = require('../models/board');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 class BoardService {
 
@@ -18,23 +19,11 @@ class BoardService {
 	};
 
 	* deleteLane(boardId, laneId) {
-		var board = yield this.getBoard(boardId);
-    if(board){
-			var laneIndex = _.findIndex(board.lanes, { id : laneId});
-			board.lanes.splice(laneIndex);
-      console.log(" lanes = "+ laneIndex);
-			return yield board.save();
-		}else{
-			return null;
-		}
+    var board = yield this.getBoard(boardId);
+    var laneIndex = _.findIndex(board.lanes, {id: laneId});
+    board.lanes.splice(laneIndex,1);
+    return yield board.save();
 	};
-
-	* getBoardByName(owner, teamName) {
-		var teams = yield this.getOwnedBoards(owner);
-		return _.find(teams, (team) => {
-			return team.name === teamName;
-		});
-	}
 
 	* addLane(boardId, lane) {
 		var board = yield this.getBoard(boardId);
@@ -42,15 +31,34 @@ class BoardService {
 		return yield board.save();
 	};
 
-	* removeMember(owner, teamName, memberToRemove) {
-		var team = yield this.getBoardByName(owner, teamName);
-		if (_.includes(team.members, memberToRemove)) {
-			team.members.pull(memberToRemove);
-			return yield team.save();
-		} else {
-			return team;
-		}
+  * addCard(boardId, laneId, card) {
+    var board = yield this.getBoard(boardId);
+    var lane = _.find(board.lanes, {id: laneId});
+    lane.cards.push(card);
+  	return yield board.save();
 	};
+
+	* deleteCard(boardId, laneId, cardId) {
+    var board = yield this.getBoard(boardId);
+    var lane = _.find(board.lanes, {id: laneId});
+    var cardIndex = _.findIndex(lane.cards, {id: cardId});
+    lane.cards.splice(cardIndex, 1);
+  	return yield board.save();
+	};
+
+  * voteCard(boardId, laneId, cardId, voter) {
+    var board = yield this.getBoard(boardId);
+    var lane = _.find(board.lanes, {id: laneId});
+    var card = _.find(lane.cards, {id: cardId});
+    if(!card.votes ){
+      card.votes = []
+    }
+    if(!_.includes(card.votes,voter)){
+      card.votes.push(voter);
+    }
+    return yield board.save();
+  };
+
 }
 
 module.exports = new BoardService();

@@ -1,7 +1,7 @@
 'use strict'
 var boardService = require('../services/board-service');
 var hashcode = require('hashcode').hashCode;
-var ObjectId = require('mongoose').Types.ObjectId
+var ObjectId = require('mongoose').Types.ObjectId;
 
 class BoardController {
 
@@ -21,9 +21,9 @@ class BoardController {
 	* addLane(next) {
 		let title = this.request.body.title;
 		let id = new ObjectId();
-		console.log(id);
+		console.log(id.toString());
 		let lane = {
-			id: id,
+			id: id.toString(),
 			title: title,
 			cards: []
 		}
@@ -33,14 +33,14 @@ class BoardController {
 
 
 	* deleteLane(next) {
-		this.body = yield boardService.deleteLane(this.params.boardId, this.params.laneId);
+		  this.body = yield boardService.deleteLane(this.params.boardId, this.params.laneId);
 	}
 
 	* addCard(next) {
 		let content = this.request.body.content;
 		let id = new ObjectId();
 		let card = {
-			id: id,
+			id: id.toString(),
 			content: content,
 			votes: {},
 			createdBy: this.passport.user.email
