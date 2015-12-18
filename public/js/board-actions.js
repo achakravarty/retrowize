@@ -10,7 +10,7 @@ var BoardActions = {
      });
    },
 
-   removeLane: function(landId){
+   removeLane: function(laneId){
      AppDispatcher.dispatch({
        actionType: ActionTypes.REMOVE_LANE,
        laneId: laneId

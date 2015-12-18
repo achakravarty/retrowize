@@ -24,9 +24,9 @@ constructor(){
   }
 
 	removeLane(laneId){
-		var laneIndex = _findIndex(this._lanes,{id: laneId});
+		var laneIndex = _.findIndex(this._lanes,{id: laneId});
 		this._lanes.splice(laneIndex,1);
-    this.emitChange();
+    	this.emitChange();
 	}
 
 	addCard(card, laneId) {
