@@ -40,21 +40,28 @@ var Main = React.createClass({
 
   render(){
     return (
-      <div>
+      <div className="container">
         { this.state.showBoard?
         <div>
           <Board boardId={this.state.boardId} lanes={this.state.lanes}/>
         </div>
         :
         <div>
+          <div className="logo">
+              Retrowize!
+          </div>
+          <div className="sub-header">
+              Perfect tool for retrospectives
+          </div>
           <div>Open an existing board or create new one!</div>
           <TextField className="new-lane-title" hintText="Enter board name" ref="boardId" />
-
+          <div>
           <RaisedButton className="join-board-btn"
             label="Open" onTouchTap={this.openBoard} primary={true}/>
 
           <RaisedButton className="create-board-btn" label="Create New Board"
             onTouchTap={this.createBoard} secondary={true}/>
+          </div>
         </div>
       }
       </div>

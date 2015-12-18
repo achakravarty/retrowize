@@ -8,7 +8,7 @@ var secure = function* (next) {
 	if (this.isAuthenticated && this.isAuthenticated()) {
 		yield next;
 	} else {
-		this.redirect('/auth/login');
+		this.redirect('/index.html');
 	}
 }
 
@@ -28,8 +28,8 @@ authRoutes.get('/login/error', authController.failure);
 
 router.get('/api/user', secure, userController.getUser);
 
-router.get('/', function* (next) {
-	this.response.redirect('/index.html');
+router.get('/',secure, function* (next) {
+	this.response.redirect('/main.html');
 })
 
 router.use('/api/boards', secure, boardRoutes.routes(), boardRoutes.allowedMethods());

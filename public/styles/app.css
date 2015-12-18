@@ -3,10 +3,36 @@ body{
 	background-color: #F3F2F2;
 }
 
+.container{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 200px;
+ 	width: 350px;
+  text-align: center;
+}
+
 .lanes {
 	width: 300px;
 	margin-right: 2%;
 	float: left;
+}
+
+.logo{
+	font-size: 42px;
+}
+
+.message{
+	margin-top:10px;
+}
+
+.sign-in-img img{
+	margin: 10px;
+}
+
+.sub-header{
+	margin: 10px;
+border-top: solid 1px gray;
+padding: 10px;
 }
 
 .title {
