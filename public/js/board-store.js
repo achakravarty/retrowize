@@ -2,7 +2,7 @@ import Events from 'events'
 import _ from 'lodash'
 import boardService from './board-service';
 import BoardEvents from './board-events';
-// import Socket from 'socket.io';
+import Socket from 'socket.io-client';
 
 class BoardStore extends Events.EventEmitter {
 
@@ -10,12 +10,19 @@ class BoardStore extends Events.EventEmitter {
     super();
     this._lanes = [];
     this._boardId = '';
-    // this.socket = Socket.io();
-    // this.socket.on(BoardEvents.CHANGE_EVENT, (boardId)=>{
-    //   if(this.getBoardId() === boardId){
-    //     this.emitChange();
-    //   }
-    // })
+    this.socket = Socket();
+    this.socket.on(BoardEvents.CHANGE_EVENT, (boardId)=>{
+      if(this.getBoardId() === boardId){
+        boardService.getBoard(boardId)
+        .then((resp) => {
+          if(resp.lanes){
+            this._lanes = resp.lanes;
+            this.emit(BoardEvents.CHANGE_EVENT);
+            console.log('Board changed');
+          }
+        });
+      }
+    });
   }
 
   createBoard(boardId){
@@ -93,8 +100,7 @@ class BoardStore extends Events.EventEmitter {
 	}
 
   emitChange() {
-    this.emit(BoardEvents.CHANGE_EVENT);
-    // this.socket.emit(BoardEvents.CHANGE_EVENT, this.getBoardId());
+    this.socket.emit(BoardEvents.CHANGE_EVENT, this.getBoardId());
   }
 
   addListener(boardEvent,callback) {

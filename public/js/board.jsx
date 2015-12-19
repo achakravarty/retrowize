@@ -25,6 +25,7 @@ var Board = React.createClass({
 	},
 
 	updateLanes(){
+		console.log('Updating lanes');
 		this.setState({lanes: boardStore.getLanes()});
 	},
 
@@ -41,7 +42,7 @@ var Board = React.createClass({
 
 		return (
 			<div>
-				<div className="board-name" style={{fontSize:"18px"}}>{this.props.boardId}</div>
+				<div className="board-name" style={{fontSize:"18px", padding: "5px"}}>{this.props.boardId}</div>
 				{getLanes()}
 				<AddLane/>
 			</div>

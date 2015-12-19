@@ -3,16 +3,14 @@
 const IO = require('koa-socket');
 const io = new IO();
 
-io.on( 'card-created', ( ctx, data ) => {
-  console.log('card-created', data);
+io.on( 'change', ( ctx, data ) => {
+  io.broadcast('change', data);
 })
 
 class BoardIO {
-
   init(app){
     io.attach(app);
   }
-
 }
 
 module.exports = new BoardIO();

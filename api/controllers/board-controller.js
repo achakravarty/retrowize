@@ -22,7 +22,6 @@ class BoardController {
 	* addLane(next) {
 		let title = this.request.body.title;
 		let id = new ObjectId();
-		console.log(id.toString());
 		let lane = {
 			id: id.toString(),
 			title: title,

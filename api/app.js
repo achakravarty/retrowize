@@ -39,4 +39,4 @@ app
 
 console.log('Config environment:', config.util.getEnv('NODE_ENV'));
 
-app.listen(3000);
+app.server.listen(3000);
