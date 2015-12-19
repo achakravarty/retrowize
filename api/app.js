@@ -1,13 +1,15 @@
-var config = require('config');
-var koa = require('koa');
-var session = require('koa-session');
-var passport = require('koa-passport');
-var bodyParser = require('koa-body');
+const config = require('config');
+const koa = require('koa');
+const session = require('koa-session');
+const passport = require('koa-passport');
+const bodyParser = require('koa-body');
+const io = require('./io');
+const db = require('./db');
+const router = require('./routes');
 
-var db = require('./db');
-var router = require('./routes');
+const app = koa();
+io.init(app);
 
-var app = koa();
 db.connect();
 
 var auth = require('./auth');

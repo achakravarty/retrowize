@@ -40,13 +40,13 @@ var Main = React.createClass({
 
   render(){
     return (
-      <div className="container">
+      <div>
         { this.state.showBoard?
-        <div>
+        <div >
           <Board boardId={this.state.boardId} lanes={this.state.lanes}/>
         </div>
         :
-        <div>
+        <div className="container">
           <div className="logo">
               Retrowize!
           </div>
