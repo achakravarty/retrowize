@@ -23,9 +23,9 @@ var Auth = {
     });
 
     passport.use(new GoogleStrategy({
-      clientID: config.get('google.clientId'),
-      clientSecret: config.get('google.clientSecret'),
-      callbackURL: config.get('google.callbackURL'),
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL,
       passReqToCallback: true
     }, function (request, accessToken, refreshToken, profile, done) {
       co(function* () {
