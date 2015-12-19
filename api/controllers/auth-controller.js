@@ -14,8 +14,8 @@ class AuthController {
 
 	* handleAuthCallback(next) {
 		yield passport.authenticate('google', {
-			successRedirect: 'http://localhost:3000/index.html',
-			failureRedirect: 'http://localhost:3000/auth/login/error'
+			successRedirect: process.env.HOSTNAME + '/index.html',
+			failureRedirect:  process.env.HOSTNAME + '/auth/login/error'
 		})
 		yield next;
 	}
