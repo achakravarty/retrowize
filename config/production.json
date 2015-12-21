@@ -1,6 +1,6 @@
 {
 	"db": {
-	"uri": "MONGOLAB_URI"
+	  "uri": "MONGOLAB_URI"
 	},
 	"google": {
 		"clientID": "GOOGLE_CLIENT_ID",
