@@ -60,14 +60,14 @@
     "react-dom": "^0.14.3",
     "reqwest": "^2.0.5",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "react-tap-event-plugin": "^0.2.1"
   },
   "devDependencies": {
     "babel-jest": "^6.0.1",
     "history": "^1.14.0",
     "jest-cli": "^0.8.1",
     "jquery": "^2.1.4",
-    "react-addons-test-utils": "^0.14.3",
-    "react-tap-event-plugin": "^0.2.1"
+    "react-addons-test-utils": "^0.14.3"
   }
 }
