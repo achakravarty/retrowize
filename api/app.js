@@ -39,4 +39,4 @@ app
 
 console.log('Config environment:', config.util.getEnv('NODE_ENV'));
 
-app.server.listen(config.util.getEnv('PORT') || 3000);
+app.server.listen(process.env.PORT) || 3000);
