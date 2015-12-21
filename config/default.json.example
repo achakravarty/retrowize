@@ -1,15 +1,11 @@
 {
-
 	"db": {
-		"username": "",
-		"password": "",
-		"host": "127.0.0.1",
-		"port": 27017,
-		"database": "retrowize"
+		"uri": "MONGOLAB_URI"
 	},
 	"google": {
-		"clientId": "google.client.id",
-		"clientSecret": "google.client.secret",
-		"callbackURL": "http://localhost:3000/auth/login/callback"
-	}
+		"clientID": "GOOGLE_CLIENT_ID",
+		"clientSecret": "GOOGLE_CLIENT_SECRET",
+		"callbackURL": "CALLBACK_URL"
+	},
+	"hostURL":"HOSTNAME"
 }

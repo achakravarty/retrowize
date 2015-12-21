@@ -1,5 +1,6 @@
 'use strict'
 var passport = require('koa-passport');
+var config = require('config');
 
 class AuthController {
 
@@ -14,8 +15,8 @@ class AuthController {
 
 	* handleAuthCallback(next) {
 		yield passport.authenticate('google', {
-			successRedirect: process.env.HOSTNAME + '/main.html',
-			failureRedirect:  process.env.HOSTNAME + '/auth/login/error'
+			successRedirect: config.get("hostURL") + '/main.html',
+			failureRedirect: config.get("hostURL") + '/auth/login/error'
 		})
 		yield next;
 	}

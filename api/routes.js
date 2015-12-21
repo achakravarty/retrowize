@@ -28,6 +28,14 @@ authRoutes.get('/login/error', authController.failure);
 
 router.get('/api/user', secure, userController.getUser);
 
+router.get('/index.html', function* (next) {
+	if (this.isAuthenticated && this.isAuthenticated()) {
+		this.response.redirect('/main.html');
+	}else{
+		yield next;
+	}
+})
+
 router.get('/',secure, function* (next) {
 	this.response.redirect('/main.html');
 })
