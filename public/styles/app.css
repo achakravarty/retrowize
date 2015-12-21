@@ -11,6 +11,22 @@ body{
   text-align: center;
 }
 
+.header{
+	padding: 10px;
+	background: #454545;
+	color: #F9F9F9;
+	margin-bottom: 10px;
+}
+
+.header .logo{
+	font-size: 22px;
+}
+
+.header .board-name{
+	float: right;
+  margin-top: 3px;
+}
+
 .lanes {
 	width: 300px;
 	margin-right: 2%;

@@ -1,10 +1,11 @@
 'use strict'
 
-import React from 'react';
-import Lane from './lane.jsx';
-import AddLane from './add-lane.jsx';
-import boardStore from './board-store';
-import BoardEvents from './board-events';
+import React from 'react'
+import Lane from './lane.jsx'
+import AddLane from './add-lane.jsx'
+import boardStore from './board-store'
+import BoardEvents from './board-events'
+import Header from './header.jsx'
 
 var Board = React.createClass({
 
@@ -42,7 +43,7 @@ var Board = React.createClass({
 
 		return (
 			<div>
-				<div className="board-name" style={{fontSize:"18px", padding: "5px"}}>{this.props.boardId}</div>
+				<Header boardName={this.props.boardId}/>
 				{getLanes()}
 				<AddLane boardId={this.props.boardId}/>
 			</div>
