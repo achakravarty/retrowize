@@ -4,6 +4,7 @@ import TextField from 'material-ui/lib/text-field';
 import boardActions from './board-actions';
 import BoardEvents from './board-events';
 import boardStore from './board-store';
+import analytics from './analytics'
 import Board from './board.jsx';
 
 var Main = React.createClass({
@@ -25,7 +26,9 @@ var Main = React.createClass({
 	},
 
   createBoard(){
-    boardActions.createBoard(this.refs.boardId.getValue());
+    let boardId = this.refs.boardId.getValue();
+    analytics.trackBoardEvent('create', boardId);
+    boardActions.createBoard(boardId);
   },
 
   loadBoard(){
@@ -35,7 +38,9 @@ var Main = React.createClass({
   },
 
   openBoard(){
-    boardActions.fetchLanes(this.refs.boardId.getValue());
+    let boardId = this.refs.boardId.getValue();
+    analytics.trackBoardEvent('open', boardId);
+    boardActions.fetchLanes(boardId);
   },
 
   render(){

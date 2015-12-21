@@ -2,7 +2,7 @@
 
 import React from 'react';
 import boardActions from './board-actions';
-
+import analytics from './analytics';
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 
@@ -16,6 +16,7 @@ var AddLane = React.createClass({
 
   addLane(){
     boardActions.addLane({title: this.refs.laneTitle.getValue()});
+    analytics.trackBoardEvent('add-lane', this.props.boardId);
     this.refs.laneTitle.setValue("");
     this.setState({isAddDisabled: true});
   },

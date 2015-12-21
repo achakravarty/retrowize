@@ -8,6 +8,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import boardActions from './board-actions';
+import analytics from './analytics';
 
 var Lane = React.createClass( {
 
@@ -24,6 +25,7 @@ var Lane = React.createClass( {
 			likes: 0
 		}
 		boardActions.addCard(card,this.props.id);
+		analytics.trackBoardEvent('add-card', this.props.boardId);
 		this.refs.newCardContent.setValue('');
 		this.setState({isAddDisabled: true});
 	},
@@ -31,10 +33,12 @@ var Lane = React.createClass( {
 	onLike(card) {
 		card.likes = card.likes + 1;
 		boardActions.voteCard(card, this.props.id);
+		analytics.trackBoardEvent('vote-card', this.props.boardId);
 	},
 
 	removeCard(card) {
 		boardActions.removeCard(card, this.props.id);
+		analytics.trackBoardEvent('remove-card', this.props.boardId);
 	},
 
 	canEnableAddButton(){
@@ -44,6 +48,7 @@ var Lane = React.createClass( {
 
 	removeLane(){
 		boardActions.removeLane(this.props.id);
+		analytics.trackBoardEvent('remove-lane', this.props.boardId);
 	},
 
 	render(){
