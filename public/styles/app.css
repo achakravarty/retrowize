@@ -41,6 +41,12 @@ body{
 	margin-top:10px;
 }
 
+.error {
+	color: red;
+	border: solid red 1px;
+	padding: 10px;
+}
+
 .sign-in-img img{
 	margin: 10px;
 }

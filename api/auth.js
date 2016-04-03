@@ -14,12 +14,14 @@ var Auth = {
 
     passport.deserializeUser(function (email, done) {
       co(function* () {
-        return yield userService.find(email);
+        var existingUser = userService.find(email);
+        return yield existingUser;
       }).then(function (user) {
         done(null, user);
       }, function (err) {
+        console.error(err);
         done(err, null);
-      })
+      });
     });
 
     passport.use(new GoogleStrategy({
@@ -37,6 +39,7 @@ var Auth = {
       }).then(function (value) {
         done(null, value);
       }, function (err) {
+        console.error(err);
         done(err, null);
       });
     }));

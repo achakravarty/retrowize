@@ -3,6 +3,7 @@ const koa = require('koa');
 const session = require('koa-session');
 const passport = require('koa-passport');
 const bodyParser = require('koa-body');
+const views = require('koa-views');
 const io = require('./io');
 const db = require('./db');
 const router = require('./routes');
@@ -16,6 +17,12 @@ var auth = require('./auth');
 auth.init();
 
 app.keys = ['Application Secret - change me!!'];
+
+app.use(views(__dirname + '/views', {
+  map: {
+    html: 'handlebars'
+  }
+}));
 
 app.use(require('koa-file-server')({
   root: 'public'

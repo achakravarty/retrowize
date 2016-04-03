@@ -1,18 +1,21 @@
-var Router = require('koa-router')
-var router = new Router();
-var authController = require('./controllers/auth-controller');
-var userController = require('./controllers/user-controller');
-var boardController = require('./controllers/board-controller');
+const Router = require('koa-router');
+const router = new Router();
+const views = require('koa-views');
 
-var secure = function* (next) {
+const authController = require('./controllers/auth-controller');
+const userController = require('./controllers/user-controller');
+const boardController = require('./controllers/board-controller');
+
+const secure = function* (next) {
 	if (this.isAuthenticated && this.isAuthenticated()) {
 		yield next;
 	} else {
-		this.redirect('/index.html');
+		this.status = 401;
+		this.response.redirect('/index.html');
 	}
-}
+};
 
-var boardRoutes = new Router();
+const boardRoutes = new Router();
 boardRoutes.post('/', boardController.createBoard);
 boardRoutes.get('/:boardId', boardController.getBoard);
 boardRoutes.post('/:boardId/lanes', boardController.addLane);
@@ -21,7 +24,7 @@ boardRoutes.post('/:boardId/lanes/:laneId/cards', boardController.addCard);
 boardRoutes.delete('/:boardId/lanes/:laneId/cards/:cardId', boardController.deleteCard);
 boardRoutes.put('/:boardId/lanes/:laneId/cards/:cardId/vote', boardController.voteCard);
 
-var authRoutes = new Router();
+const authRoutes = new Router();
 authRoutes.get('/login', authController.authenticate);
 authRoutes.get('/login/callback', authController.handleAuthCallback);
 authRoutes.get('/login/error', authController.failure);
@@ -30,15 +33,19 @@ router.get('/api/user', secure, userController.getUser);
 
 router.get('/index.html', function* (next) {
 	if (this.isAuthenticated && this.isAuthenticated()) {
-		this.response.redirect('/main.html');
+		this.response.redirect('/board');
 	}else{
 		yield next;
 	}
-})
+});
 
-router.get('/',secure, function* (next) {
-	this.response.redirect('/main.html');
-})
+router.get('/', secure, function* (next) {
+	this.response.redirect('/board');
+});
+
+router.get('/board', secure, function*(next){
+	yield this.render('main.html');
+});
 
 router.use('/api/boards', secure, boardRoutes.routes(), boardRoutes.allowedMethods());
 router.use('/auth', authRoutes.routes(), authRoutes.allowedMethods());

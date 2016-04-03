@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 var boardService = require('../services/board-service');
 var hashcode = require('hashcode').hashCode;
 var ObjectId = require('mongoose').Types.ObjectId;
@@ -10,10 +10,18 @@ class BoardController {
 	}
 
 	* createBoard(next) {
+		console.log('creating board');
+console.log(this.user);
 		let board = {
 			owner: this.passport.user.email,
 			id: this.request.body.name,
 			lanes: []
+		};
+		var existingBoard = yield boardService.getBoard(board.id);
+		if(existingBoard){
+			this.body = { error: `Board with name ${board.id} already exisits. Please choose another name.`};
+			this.status = 400;
+			return;
 		}
 		this.body = yield boardService.createBoard(board);
 		this.status = 201;
@@ -26,7 +34,7 @@ class BoardController {
 			id: id.toString(),
 			title: title,
 			cards: []
-		}
+		};
 		this.body = yield boardService.addLane(this.params.boardId, lane);
 		this.status = 201;
 	}
@@ -44,7 +52,7 @@ class BoardController {
 			content: content,
 			votes: [],
 			createdBy: this.passport.user.email
-		}
+		};
 		this.body = yield boardService.addCard(this.params.boardId, this.params.laneId, card);
 	}
 

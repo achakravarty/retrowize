@@ -1,5 +1,5 @@
-import Events from 'events'
-import _ from 'lodash'
+import Events from 'events';
+import _ from 'lodash';
 import boardService from './board-service';
 import BoardEvents from './board-events';
 import Socket from 'socket.io-client';
@@ -26,14 +26,23 @@ class BoardStore extends Events.EventEmitter {
   }
 
   createBoard(boardId){
-    boardService.createBoard(boardId)
+    boardService.getBoard(boardId)
     .then((resp) => {
       if(resp.lanes){
-        this._lanes = resp.lanes;
-        this._boardId = resp.id;
-        this.emit(BoardEvents.BOARD_LOADED);
+        this.emit(BoardEvents.BOARD_ALREADY_EXISTS);
+      }else{
+        boardService.createBoard(boardId)
+        .then((resp) => {
+          if(resp.lanes){
+            this._lanes = resp.lanes;
+            this._boardId = resp.id;
+            this.emit(BoardEvents.BOARD_LOADED);
+          }
+        });
       }
     });
+
+
   }
 
   fetchLanes(boardId){
@@ -43,6 +52,8 @@ class BoardStore extends Events.EventEmitter {
         this._lanes = resp.lanes;
         this._boardId = resp.id;
         this.emit(BoardEvents.BOARD_LOADED);
+      }else{
+        this.emit(BoardEvents.BOARD_NOT_FOUND);
       }
     });
   }
@@ -110,6 +121,6 @@ class BoardStore extends Events.EventEmitter {
   removeListener(boardEvent,callback) {
     this.removeListener(boardEvent, callback);
   }
-};
+}
 
 module.exports = new BoardStore();

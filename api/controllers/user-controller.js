@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 class UserController {
 
 	* getUser(next) {
@@ -7,7 +7,7 @@ class UserController {
 			email: user.email,
 			name: user.name,
 			picture: user.picture
-		}
+		};
 	}
 }
 

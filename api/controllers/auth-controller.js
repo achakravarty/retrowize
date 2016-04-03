@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 var passport = require('koa-passport');
 var config = require('config');
 
@@ -17,12 +17,13 @@ class AuthController {
 		yield passport.authenticate('google', {
 			successRedirect: config.get("hostURL") + '/main.html',
 			failureRedirect: config.get("hostURL") + '/auth/login/error'
-		})
+		});
 		yield next;
 	}
 
 	* failure(next) {
 		this.body = 'failed';
+		yield next;
 	}
 }
 
