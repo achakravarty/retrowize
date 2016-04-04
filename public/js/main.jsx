@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import {browserHistory} from 'react-router';
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import boardActions from './board-actions';
@@ -14,7 +15,7 @@ var Main = React.createClass({
   getInitialState(){
     return {
       showBoard: false,
-      boardId: '',
+      boardId: (this.props.params && this.props.params.boardId) ||'',
       lanes: [],
       boardNameEmpty: false,
       boardNotFound: false,
@@ -23,13 +24,13 @@ var Main = React.createClass({
   },
 
   componentWillMount() {
-		boardStore.addListener(BoardEvents.BOARD_LOADED, this.loadBoard);
+    boardStore.addListener(BoardEvents.BOARD_LOADED, this._loadBoard);
     boardStore.addListener(BoardEvents.BOARD_NOT_FOUND, this._boardNotFound);
     boardStore.addListener(BoardEvents.BOARD_ALREADY_EXISTS, this._boardAlreadyExists);
 	},
 
 	componentWillUnmount() {
-		boardStore.removeListener(BoardEvents.BOARD_LOADED, this.loadBoard);
+    boardStore.removeListener(BoardEvents.BOARD_LOADED, this._loadBoard);
     boardStore.removeListener(BoardEvents.BOARD_NOT_FOUND, this._boardNotFound);
     boardStore.removeListener(BoardEvents.BOARD_ALREADY_EXISTS, this._boardAlreadyExists);
 	},
@@ -52,10 +53,8 @@ var Main = React.createClass({
     boardActions.createBoard(boardId);
   },
 
-  loadBoard(){
-    let boardId = boardStore.getBoardId();
-    let lanes = boardStore.getLanes();
-    this.setState({showBoard: true, boardId: boardId, lanes: lanes});
+  _loadBoard(){
+    window.location.href = `/board/${boardStore.getBoardId()}`;
   },
 
   _getBoardId(){
@@ -84,12 +83,6 @@ var Main = React.createClass({
 
   render(){
     return (
-      <div>
-        { this.state.showBoard?
-        <div >
-          <Board boardId={this.state.boardId} lanes={this.state.lanes}/>
-        </div>
-        :
         <div className="container">
           <div className="logo">
               Retrowize!
@@ -110,8 +103,6 @@ var Main = React.createClass({
             onTouchTap={this.createBoard} secondary={true}/>
           </div>
         </div>
-      }
-      </div>
     )
   }
 });

@@ -4,6 +4,7 @@ import React from 'react';
 import Lane from './lane.jsx';
 import AddLane from './add-lane.jsx';
 import boardStore from './board-store';
+import boardActions from './board-actions';
 import BoardEvents from './board-events';
 import Header from './header.jsx';
 
@@ -11,17 +12,25 @@ var Board = React.createClass({
 
 	getInitialState(){
 		return {
-			lanes : boardStore.getLanes() || [],
-			boardId: '',
+			lanes : this.props.lanes || boardStore.getLanes() || [],
+			boardId: this.props.boardId || (this.props.params && this.props.params.boardId) || '',
 		};
 	},
 
-	componentWillMount: function() {
+	componentWillMount() {
 		boardStore.addListener(BoardEvents.CHANGE_EVENT ,this.updateLanes);
+		boardStore.addListener(BoardEvents.BOARD_LOADED ,this.updateLanes);
 	},
 
-	componentWillUnmount: function() {
+	componentDidMount(){
+		if(this.state.boardId && this.state.lanes.length === 0){
+			boardActions.fetchLanes(this.state.boardId);
+		}
+	},
+
+	componentWillUnmount() {
 		boardStore.removeListener(BoardEvents.CHANGE_EVENT, this.updateLanes);
+		boardStore.removeListener(BoardEvents.BOARD_LOADED, this.updateLanes);
 	},
 
 	updateLanes(){
@@ -41,10 +50,10 @@ var Board = React.createClass({
 
 		return (
 			<div>
-				<Header boardName={this.props.boardId}/>
+				<Header boardName={this.state.boardId}/>
 				<div style={{padding:'10px'}}>
 					{getLanes()}
-					<AddLane boardId={this.props.boardId}/>
+					<AddLane boardId={this.state.boardId}/>
 				</div>
 			</div>
 		);

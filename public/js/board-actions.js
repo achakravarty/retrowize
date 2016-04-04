@@ -54,6 +54,6 @@ var BoardActions = {
        laneId: laneId
      });
    }
-}
+};
 
 module.exports = BoardActions;

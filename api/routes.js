@@ -48,6 +48,11 @@ router.get('/board', secure, function*(next){
 	yield this.render('main.html');
 });
 
+router.get('/board/:boardId', secure, function*(next){
+	yield this.render('main.html');
+});
+
+
 router.use('/api/boards', secure, boardRoutes.routes(), boardRoutes.allowedMethods());
 router.use('/auth', authRoutes.routes(), authRoutes.allowedMethods());
 
