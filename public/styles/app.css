@@ -1,6 +1,7 @@
 body{
 	font-family: sans-serif;
 	background-color: #F3F2F2;
+	margin: 0px;
 }
 
 .container{
@@ -12,7 +13,6 @@ body{
 }
 
 .header{
-	padding: 10px;
 	background: #454545;
 	color: #F9F9F9;
 	margin-bottom: 10px;
@@ -20,11 +20,20 @@ body{
 
 .header .logo{
 	font-size: 22px;
+	float: left;
+	margin: 10px;
 }
 
 .header .board-name{
+	text-align: center;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.header .user-info{
+	display: inline-block;
 	float: right;
-  margin-top: 3px;
+	margin-right: 10px;
 }
 
 .lanes {
@@ -53,8 +62,8 @@ body{
 
 .sub-header{
 	margin: 10px;
-border-top: solid 1px gray;
-padding: 10px;
+	border-top: solid 1px gray;
+	padding: 10px;
 }
 
 .title {

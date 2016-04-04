@@ -1,23 +1,22 @@
-'use strict'
+'use strict';
 
-import React from 'react'
-import Lane from './lane.jsx'
-import AddLane from './add-lane.jsx'
-import boardStore from './board-store'
-import BoardEvents from './board-events'
-import Header from './header.jsx'
+import React from 'react';
+import Lane from './lane.jsx';
+import AddLane from './add-lane.jsx';
+import boardStore from './board-store';
+import BoardEvents from './board-events';
+import Header from './header.jsx';
 
 var Board = React.createClass({
 
 	getInitialState(){
 		return {
-			lanes : [],
+			lanes : boardStore.getLanes() || [],
 			boardId: '',
 		};
 	},
 
 	componentWillMount: function() {
-		this.updateLanes();
 		boardStore.addListener(BoardEvents.CHANGE_EVENT ,this.updateLanes);
 	},
 
@@ -26,7 +25,6 @@ var Board = React.createClass({
 	},
 
 	updateLanes(){
-		console.log('Updating lanes');
 		this.setState({lanes: boardStore.getLanes()});
 	},
 
@@ -39,16 +37,18 @@ var Board = React.createClass({
 						</div>
 					);
 			});
-		}
+		};
 
 		return (
 			<div>
 				<Header boardName={this.props.boardId}/>
-				{getLanes()}
-				<AddLane boardId={this.props.boardId}/>
+				<div style={{padding:'10px'}}>
+					{getLanes()}
+					<AddLane boardId={this.props.boardId}/>
+				</div>
 			</div>
-		)
+		);
 	 }
-})
+});
 
 module.exports = Board;

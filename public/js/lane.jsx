@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-import React from 'react'
-import Card from './card.jsx'
-import TextField from 'material-ui/lib/text-field'
+import React from 'react';
+import Card from './card.jsx';
+import TextField from 'material-ui/lib/text-field';
 import Paper from 'material-ui/lib/paper';
 import IconButton from 'material-ui/lib/icon-button';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
@@ -16,14 +16,14 @@ var Lane = React.createClass( {
 		return {
 			color: "lightyellow",
 			isAddDisabled: true
-		}
+		};
 	},
 
 	addNewCard(){
 		let card = {
 			content : this.refs.newCardContent.getValue(),
 			likes: 0
-		}
+		};
 		boardActions.addCard(card,this.props.id);
 		analytics.trackBoardEvent('add-card', this.props.boardId);
 		this.refs.newCardContent.setValue('');
@@ -43,7 +43,7 @@ var Lane = React.createClass( {
 
 	canEnableAddButton(){
 		var disable =  this.refs.newCardContent.getValue().length === 0;
-		this.setState({isAddDisabled: disable})
+		this.setState({isAddDisabled: disable});
 	},
 
 	removeLane(){
@@ -59,16 +59,16 @@ var Lane = React.createClass( {
 					     <Card key={card.id} content={card.content} likes={card.votes.length} color={this.state.color}
 							onLike={
 								() => {
-								this.onLike(card)
+								this.onLike(card);
 								}}
 								removeCard={
 									() => {
-									this.removeCard(card)
+									this.removeCard(card);
 								}}
 								/>
 						);
 			});
-		}
+		};
 
 		return (
 			<Paper className="lane" zDepth={1}>
@@ -90,6 +90,6 @@ var Lane = React.createClass( {
 
 		</Paper>);
 	}
-})
+});
 
-module.exports = Lane
+module.exports = Lane;

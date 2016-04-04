@@ -8,6 +8,7 @@ class UserController {
 			name: user.name,
 			picture: user.picture
 		};
+		yield next;
 	}
 }
 

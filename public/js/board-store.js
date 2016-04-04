@@ -10,7 +10,7 @@ class BoardStore extends Events.EventEmitter {
     super();
     this._lanes = [];
     this._boardId = '';
-    this.socket = Socket();
+    this.socket = Socket.connect();
     this.socket.on(BoardEvents.CHANGE_EVENT, (boardId)=>{
       if(this.getBoardId() === boardId){
         boardService.getBoard(boardId)
@@ -18,7 +18,6 @@ class BoardStore extends Events.EventEmitter {
           if(resp.lanes){
             this._lanes = resp.lanes;
             this.emit(BoardEvents.CHANGE_EVENT);
-            console.log('Board changed');
           }
         });
       }

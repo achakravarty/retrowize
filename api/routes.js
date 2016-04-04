@@ -41,6 +41,7 @@ router.get('/index.html', function* (next) {
 
 router.get('/', secure, function* (next) {
 	this.response.redirect('/board');
+	yield next;
 });
 
 router.get('/board', secure, function*(next){

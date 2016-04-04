@@ -10,8 +10,6 @@ class BoardController {
 	}
 
 	* createBoard(next) {
-		console.log('creating board');
-console.log(this.user);
 		let board = {
 			owner: this.passport.user.email,
 			id: this.request.body.name,

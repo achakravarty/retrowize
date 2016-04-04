@@ -1,4 +1,4 @@
-import reqwest from 'reqwest'
+import reqwest from 'reqwest';
 
 class BoardService {
 
