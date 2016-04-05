@@ -1,8 +1,11 @@
 {
-  "name": "introduction-to-react",
+  "name": "retrowize",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
+  "engines": {
+    "node": "5.10.0"
+  },
   "scripts": {
     "test": "jest",
     "start": "nodemon api/app.js",
