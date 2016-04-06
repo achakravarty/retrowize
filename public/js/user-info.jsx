@@ -1,20 +1,26 @@
 import React from 'react';
-import userService from './user-service';
+import boardStore from './board-store';
+import BoardEvents from './board-events';
 
 var UserInfo = React.createClass({
 
   getInitialState(){
     return {
-      user: {}
+      user: boardStore.getUser()
     };
   },
 
-  componentDidMount(){
-    userService.getUser()
-    .then((resp)=>{
-      this.setState({user: resp});
-    });
-  },
+  componentWillMount() {
+		boardStore.addListener(BoardEvents.USER_UPDATED ,this.updateUser);
+	},
+
+	componentWillUnmount() {
+		boardStore.removeListener(BoardEvents.USER_UPDATED, this.updateUser);
+	},
+
+	updateUser(){
+		this.setState({ user: boardStore.getUser()});
+	},
 
   render(){
   return (

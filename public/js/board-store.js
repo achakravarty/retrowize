@@ -3,6 +3,7 @@ import _ from 'lodash';
 import boardService from './board-service';
 import BoardEvents from './board-events';
 import Socket from 'socket.io-client';
+import userService from './user-service';
 
 class BoardStore extends Events.EventEmitter {
 
@@ -10,14 +11,26 @@ class BoardStore extends Events.EventEmitter {
     super();
     this._lanes = [];
     this._boardId = '';
+    this._user = '';
+    console.log(userService);
+    userService.getUser().then((resp) => {
+      if(resp.email){
+        this._user = resp;
+        this.emit(BoardEvents.USER_UPDATED);
+      }
+    });
+
     this.socket = Socket.connect();
+    console.log(this.socket);
     this.socket.on(BoardEvents.CHANGE_EVENT, (boardId)=>{
       if(this.getBoardId() === boardId){
         boardService.getBoard(boardId)
         .then((resp) => {
           if(resp.lanes){
-            this._lanes = resp.lanes;
-            this.emit(BoardEvents.CHANGE_EVENT);
+            if(!_.eq(this._lanes,resp.lanes)){
+              this._lanes = resp.lanes;
+              this.emit(BoardEvents.CHANGE_EVENT);
+            }
           }
         });
       }
@@ -29,7 +42,7 @@ class BoardStore extends Events.EventEmitter {
     .then((resp) => {
       if(resp.lanes){
         this.emit(BoardEvents.BOARD_ALREADY_EXISTS);
-      }else{
+      } else {
         boardService.createBoard(boardId)
         .then((resp) => {
           if(resp.lanes){
@@ -40,8 +53,6 @@ class BoardStore extends Events.EventEmitter {
         });
       }
     });
-
-
   }
 
   fetchLanes(boardId){
@@ -51,7 +62,7 @@ class BoardStore extends Events.EventEmitter {
         this._lanes = resp.lanes;
         this._boardId = resp.id;
         this.emit(BoardEvents.BOARD_LOADED);
-      }else{
+      } else {
         this.emit(BoardEvents.BOARD_NOT_FOUND);
       }
     });
@@ -59,6 +70,10 @@ class BoardStore extends Events.EventEmitter {
 
   getBoardId(){
     return this._boardId;
+  }
+
+  getUser(){
+    return this._user;
   }
 
   getLanes() {
@@ -110,16 +125,10 @@ class BoardStore extends Events.EventEmitter {
 	}
 
   emitChange() {
+    this.emit(BoardEvents.CHANGE_EVENT);
     this.socket.emit(BoardEvents.CHANGE_EVENT, this.getBoardId());
   }
 
-  addListener(boardEvent,callback) {
-    this.on(boardEvent, callback);
-  }
-
-  removeListener(boardEvent,callback) {
-    this.removeListener(boardEvent, callback);
-  }
 }
 
 module.exports = new BoardStore();

@@ -1,47 +1,59 @@
 jest.dontMock('../public/js/board.jsx');
 jest.dontMock('../public/js/lane.jsx');
-jest.dontMock('material-ui/lib/raised-button');
-jest.dontMock('material-ui/lib/text-field');
-jest.dontMock('react-tap-event-plugin');
-jest.dontMock('../public/js/board-store');
 jest.dontMock('../public/js/app-dispatcher');
-jest.dontMock('../public/js/board-actions');
 jest.dontMock('../public/js/add-lane.jsx');
+jest.dontMock('./mock-icon-button.jsx');
+jest.dontMock('./mock-text-field.jsx');
+
+jest.mock('material-ui/lib/icon-button', () => {
+	return require('./mock-icon-button.jsx');
+});
+
+jest.mock('material-ui/lib/raised-button',() => {
+	return require('./mock-icon-button.jsx');
+});
+
+jest.mock('material-ui/lib/floating-action-button',() => {
+	return require('./mock-icon-button.jsx');
+});
+
+jest.mock('material-ui/lib/text-field',() => {
+	return require('./mock-text-field.jsx');
+});
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-var Socket = require('socket.io-client');
-Socket.connect = function(){
-	var store = {};
-	var em = function(e, a) {
-		store[e](a);
-	};
-	var on = function(e, cb) {
-		store[e] = cb;
-	};
-	return { on: on, emit: em };
-};
 
-const injectTapEventPlugin = require('react-tap-event-plugin');
-injectTapEventPlugin();
+jest.mock('../public/js/board-store', ()=>{
+	return require('./mock-board-store');
+});
 
-var boardService = require('../public/js/board-service');
-var boardStore = require('../public/js/board-store');
-
-const Lane = require('../public/js/lane.jsx');
-const boardActions = require('../public/js/board-actions');
 const RaisedButton = require('material-ui/lib/raised-button');
 const TextField = require('material-ui/lib/text-field');
-const Board = require('../public/js/board.jsx');
-const AddLane = require('../public/js/add-lane.jsx');
 
+let boardService, boardStore, userService, Lane, AddLane, Board, boardActions;
 
 describe('Board', () => {
 
 	beforeEach(()=>{
+		userService = require('../public/js/user-service');
+
+		var Socket = require('socket.io-client');
+
+		boardService = require('../public/js/board-service');
+	  boardStore = require('../public/js/board-store');
+		boardActions = require('../public/js/board-actions');
+
+		Lane = require('../public/js/lane.jsx');
+		AddLane = require('../public/js/add-lane.jsx');
+		Board = require('../public/js/board.jsx');
+
 		boardStore._boardId = "test-board";
-		boardStore._lanes = [{title: 'Test Lane', cards:[], id: 0}];
+		let lanes = [{title: 'Test Lane', cards:[], id: 0}];
+		boardStore.getLanes.mockReturnValue(lanes);
+		boardStore.getUser.mockReturnValue({
+			email: 'test@test.com'
+		});
 	});
 
 	it('should fetch lanes from BoardStore', () => {
@@ -73,14 +85,14 @@ describe('Board', () => {
 			let addLane = TestUtils.findRenderedComponentWithType(board, AddLane);
 			addLane.setState({isAddDisabled: false});
 
-			let newLaneTitle = TestUtils.findRenderedComponentWithType(addLane, TextField);
-			newLaneTitle.setValue("New Test Lane");
+			let newLaneTitle = TestUtils.findRenderedDOMComponentWithClass(addLane, 'new-lane-title');
+			newLaneTitle.value = "New Test Lane";
+			TestUtils.Simulate.change(newLaneTitle);
 
 			let addLaneBtn = TestUtils.findRenderedDOMComponentWithClass(board, 'add-lane-btn');
-			TestUtils.Simulate.touchTap(addLaneBtn);
+			TestUtils.Simulate.click(addLaneBtn);
 
-			expect(board.state.lanes.length).toBe(2);
-			expect(board.state.lanes[1].title).toBe("New Test Lane");
+			expect(boardActions.addLane.mock.calls.length).toBe(1);
 	});
 
 	it('should set lane titles', () => {

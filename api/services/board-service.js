@@ -6,7 +6,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 class BoardService {
 
 	* getBoard(boardId) {
-		return yield Board.findOne({"id": boardId}).exec();
+		return yield Board.findOne({'id': boardId}).exec();
 	}
 
 	* getOwnedBoards(owner) {
@@ -46,15 +46,45 @@ class BoardService {
   	return yield board.save();
 	}
 
+	findCard(board, laneId, cardId){
+		var lane = _.find(board.lanes, {id: laneId});
+		if(lane){
+			return _.find(lane.cards, {id: cardId});
+		}	else {
+			return undefined;
+		}
+	}
+
   * voteCard(boardId, laneId, cardId, voter) {
     var board = yield this.getBoard(boardId);
-    var lane = _.find(board.lanes, {id: laneId});
-    var card = _.find(lane.cards, {id: cardId});
+		var card = this.findCard(board, laneId, cardId);
+		if(!card){
+			return;
+		}
+
     if(!card.votes ){
       card.votes = [];
     }
     if(!_.includes(card.votes,voter)){
       card.votes.push(voter);
+    }
+    return yield board.save();
+  }
+
+	* removeVote(boardId, laneId, cardId, voter) {
+		var board = yield this.getBoard(boardId);
+		var card = this.findCard(board, laneId, cardId);
+		if(!card){
+			return;
+		}
+
+		if(!card.votes ){
+      card.votes = [];
+    }
+    if(_.includes(card.votes,voter)){
+			_.remove(card.votes,(v)=>{
+				return v === voter;
+			});
     }
     return yield board.save();
   }

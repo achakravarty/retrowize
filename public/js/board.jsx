@@ -42,7 +42,7 @@ var Board = React.createClass({
 		return this.state.lanes.map((lane, index) => {
 				return (
 					<div key={lane.id}  className="lanes">
-					  		<Lane title={lane.title} id={lane.id} cards={lane.cards} boardId={this.props.boardId}></Lane>
+					  		<Lane title={lane.title} id={lane.id} cards={lane.cards} createdBy={lane.createdBy} boardId={this.props.boardId}></Lane>
 						</div>
 					);
 			});
