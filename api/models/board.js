@@ -6,6 +6,7 @@ var boardSchema = {
 	lanes: [{
       id:String,
       title: String,
+			createdBy: String,
       cards: [{
         id: String,
         content: String,
@@ -14,6 +15,6 @@ var boardSchema = {
       }
     ]}
   ]
-}
+};
 
 module.exports = mongoose.model('Board', boardSchema);

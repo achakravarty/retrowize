@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/phudekar/retrowize.git"
+  },
   "engines": {
     "node": "5.10.0"
   },
@@ -48,6 +52,7 @@
     "handlebars": "^4.0.5",
     "hashcode": "^1.0.3",
     "http-server": "^0.8.5",
+    "jquery": "^2.2.3",
     "json-loader": "^0.5.4",
     "koa": "^1.1.2",
     "koa-body": "^1.4.0",
@@ -58,10 +63,10 @@
     "koa-socket": "^3.2.0",
     "koa-views": "^4.1.0",
     "lodash": "^3.10.1",
-    "material-ui": "^0.13.4",
+    "material-ui": "^0.14.4",
     "mongoose": "^4.3.2",
     "passport-google-oauth2": "^0.1.6",
-    "react": "^0.14.3",
+    "react": "^0.14.8",
     "react-dom": "^0.14.3",
     "react-router": "^2.0.1",
     "react-tap-event-plugin": "^0.2.1",
@@ -74,7 +79,7 @@
   "devDependencies": {
     "babel-jest": "^6.0.1",
     "history": "^1.14.0",
-    "jest-cli": "^0.8.1",
+    "jest-cli": "^0.10.0",
     "jquery": "^2.1.4",
     "nodemon": "^1.9.1",
     "react-addons-test-utils": "^0.14.3"

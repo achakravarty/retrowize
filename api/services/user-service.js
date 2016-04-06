@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var User = require('../models/user');
 
@@ -11,7 +11,7 @@ class UserService {
 	* register(user) {
 		var name;
 		if (user.displayName) {
-			name = user.displayName
+			name = user.displayName;
 		} else name = user.name.givenName;
 
 		var picture;
@@ -26,7 +26,7 @@ class UserService {
 		});
 
 		return yield userDoc.save();
-	};
+	}
 }
 
 module.exports = new UserService();

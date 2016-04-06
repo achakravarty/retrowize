@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import React from 'react';
 import boardActions from './board-actions';
@@ -15,23 +15,24 @@ var AddLane = React.createClass({
   },
 
   addLane(){
-    boardActions.addLane({title: this.refs.laneTitle.getValue()});
+    boardActions.addLane({title: this.state.newLaneTitle});
     analytics.trackBoardEvent('add-lane', this.props.boardId);
-    this.refs.laneTitle.setValue("");
-    this.setState({isAddDisabled: true});
+    this.setState({isAddDisabled: true, newLaneTitle: ''});
   },
 
-  canEnableAddButton(){
-    this.setState({isAddDisabled: this.refs.laneTitle.getValue().length === 0})
+  newLaneTitleChanged(event){
+    let newLaneTitle =  event.target.value;
+    this.setState({isAddDisabled: newLaneTitle.length === 0, newLaneTitle: newLaneTitle});
   },
 
   render(){
     return (
       <div className="new-lane">
-        <TextField className="new-lane-title" onChange={this.canEnableAddButton}
+        <TextField className="new-lane-title" onChange={this.newLaneTitleChanged}
             hintText="Enter lane title"
             floatingLabelText="Lane title"
-            ref="laneTitle" />
+            value={this.state.newLaneTitle}
+           />
         <div>
             <RaisedButton disabled={this.state.isAddDisabled} className="add-lane-btn" label="Add New Lane" onTouchTap={this.addLane} primary={true}/>
         </div>
