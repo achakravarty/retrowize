@@ -87,6 +87,12 @@ body{
 	padding:10px;
 }
 
+.lane .edit-lane-btn{
+	position: relative;
+	text-align: left;
+	bottom: -13px;
+}
+
 .lane .add-card-btn{
 	position: relative;
 	text-align: left;
@@ -101,6 +107,7 @@ body{
 .card-content{
 	margin-bottom: 10px;
 	clear: both;
+	overflow: scroll;
 }
 
 .remove-card{

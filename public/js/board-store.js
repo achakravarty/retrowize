@@ -92,6 +92,14 @@ class BoardStore extends Events.EventEmitter {
     });
   }
 
+  updateLaneTitle(laneId, title){
+    boardService.updateLaneTitle(this.getBoardId(), laneId, title)
+    .then((resp) => {
+      this._lanes = resp.lanes;
+      this.emitChange();
+    });
+  }
+
 	removeLane(laneId){
     boardService.removeLane(this.getBoardId(), laneId)
     .then((resp) => {
@@ -107,6 +115,14 @@ class BoardStore extends Events.EventEmitter {
       this.emitChange();
     });
 	}
+
+  updateCardContent(laneId, cardId, content){
+    boardService.updateCardContent(this.getBoardId(), laneId, cardId, content)
+    .then((resp) => {
+      this._lanes = resp.lanes;
+      this.emitChange();
+    });
+  }
 
 	voteCard(card, laneId) {
     boardService.voteCard(this.getBoardId(), laneId, card.id)

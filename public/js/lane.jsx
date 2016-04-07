@@ -11,6 +11,7 @@ import boardActions from './board-actions';
 import boardStore from './board-store';
 import BoardEvents from './board-events';
 import analytics from './analytics';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 var Lane = React.createClass( {
 
@@ -18,7 +19,9 @@ var Lane = React.createClass( {
 		return {
 			color: "lightyellow",
 			isAddDisabled: true,
-			user: boardStore.getUser()
+			user: boardStore.getUser(),
+			inEditMode: false,
+			isEditDisabled: false
 		};
 	},
 
@@ -66,12 +69,25 @@ var Lane = React.createClass( {
 		analytics.trackBoardEvent('remove-lane', this.props.boardId);
 	},
 
+	enableEdit(){
+		this.setState({ laneTitle: this.props.title, inEditMode: true});
+	},
+
+	editLaneTitle(){
+		boardActions.updateLaneTitle(this.props.id, this.state.laneTitle);
+		this.setState({inEditMode: false});
+	},
+
+	laneTitleChanged(event){
+		this.setState({laneTitle: event.target.value, isEditDisabled: event.target.value.length === 0});
+	},
+
 	render(){
 
 		var getCards = ()=>{
 			return this.props.cards.map((card, index) => {
 				return (
-					     <Card key={card.id} card={card} color={this.state.color}
+					     <Card key={card.id} laneId={this.props.id} card={card} color={this.state.color}
 							onLike={
 								() => {
 								this.onLike(card);
@@ -87,7 +103,13 @@ var Lane = React.createClass( {
 
 		return (
 			<Paper className="lane" zDepth={1}>
-				<div className="title">{this.props.title}</div>
+				{ this.state.inEditMode ?
+					<div style={{clear: "both"}}>
+							<TextField className="edit-lane-title" hintText="Enter new title" onChange={this.laneTitleChanged} value={this.state.laneTitle}  style={{width: "192px"}}/>
+							<RaisedButton disabled={this.state.isEditDisabled} className="edit-card-btn" label="Done" onTouchTap={this.editLaneTitle} secondary={true}/>
+					</div>
+					: <div className="title" onMouseDown={this.enableEdit}>{this.props.title}</div>
+				}
 				{ this.state.user.email === this.props.createdBy ?
 				<IconButton className="remove-lane" tooltip="Remove this lane" onTouchTap={this.removeLane}>
 					<FontIcon className="material-icons" color={"lightgray"} >clear</FontIcon>

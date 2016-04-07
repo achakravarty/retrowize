@@ -49,8 +49,19 @@ class BoardController {
 		this.status = 201;
 	}
 
-	* getLane(boardId, laneId){
-		var board = yield boardService.getBoard(boardId);
+	* updateLane(next) {
+		let title = this.request.body.title;
+		let board = yield boardService.getBoard(this.params.boardId);
+		let lane = self.getLane(board, this.params.laneId);
+		if(lane){
+			lane.title = title;
+			this.body = yield board.save();
+		}else {
+			this.status = 404;
+		}
+	}
+
+	getLane(board, laneId){
 		if(board){
 			return _.find(board.lanes, {id: laneId});
 		} else {
@@ -59,12 +70,16 @@ class BoardController {
 	}
 
 	* deleteLane(next) {
-		let lane = yield self.getLane(this.params.boardId, this.params.laneId);
-		if(lane && lane.createdBy === this.passport.user.email){
-			this.body = yield boardService.deleteLane(this.params.boardId, this.params.laneId);
+		let board = yield boardService.getBoard(this.params.boardId);
+		let lane = self.getLane(board, this.params.laneId);
+
+		if(!lane){
+			this.status = 404;
+		} else if(lane.createdBy === this.passport.user.email){
+				this.body = yield boardService.deleteLane(this.params.boardId, this.params.laneId);
 		} else {
-			this.body = { error: "Cannot delete lanes created by other users"};
-			this.status = 401;
+				this.body = { error: "Cannot delete lanes created by other users"};
+				this.status = 401;
 		}
 	}
 
@@ -80,8 +95,27 @@ class BoardController {
 		this.body = yield boardService.addCard(this.params.boardId, this.params.laneId, card);
 	}
 
+	* updateCard(next) {
+		let content = this.request.body.content;
+		let board = yield boardService.getBoard(this.params.boardId);
+		let lane = self.getLane(board, this.params.laneId);
+		let card = _.find(lane.cards, {id: this.params.cardId});
+
+		if(!card){
+			this.status = 404;
+		} else if(card.createdBy === this.passport.user.email){
+			card.content = content;
+			this.body = yield board.save();
+		} else {
+			this.body = { error: "Cannot edit cards created by other users"};
+			this.status = 401;
+		}
+	}
+
+
 	* deleteCard(next) {
-		let lane = yield self.getLane(this.params.boardId, this.params.laneId);
+		let board = yield boardService.getBoard(this.params.boardId);
+		let lane = self.getLane(board, this.params.laneId);
 		let card = _.find(lane.cards, {id: this.params.cardId});
 
 		if(card && card.createdBy === this.passport.user.email){

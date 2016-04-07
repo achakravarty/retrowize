@@ -25,6 +25,12 @@ appDispatcher.register(function(action) {
       }
       break;
 
+    case ActionTypes.UPDATE_LANE_TITLE:
+      if (action.laneId) {
+        boardStore.updateLaneTitle(action.laneId, action.title);
+      }
+      break;
+
     case ActionTypes.REMOVE_LANE:
       if (action.laneId) {
         boardStore.removeLane(action.laneId);
@@ -34,6 +40,12 @@ appDispatcher.register(function(action) {
     case ActionTypes.ADD_CARD:
       if (action.card && action.laneId !== undefined){
         boardStore.addCard(action.card, action.laneId);
+      }
+      break;
+
+    case ActionTypes.UPDATE_CARD_CONTENT:
+      if (action.cardId && action.laneId !== undefined){
+        boardStore.updateCardContent(action.laneId, action.cardId, action.content);
       }
       break;
 

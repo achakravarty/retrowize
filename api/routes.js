@@ -17,11 +17,16 @@ const secure = function* (next) {
 
 const boardRoutes = new Router();
 boardRoutes.post('/', boardController.createBoard);
+boardRoutes.get('/', boardController.getBoards);
 boardRoutes.get('/:boardId', boardController.getBoard);
 boardRoutes.post('/:boardId/lanes', boardController.addLane);
 boardRoutes.delete('/:boardId/lanes/:laneId', boardController.deleteLane);
+boardRoutes.put('/:boardId/lanes/:laneId', boardController.updateLane);
+
 boardRoutes.post('/:boardId/lanes/:laneId/cards', boardController.addCard);
 boardRoutes.delete('/:boardId/lanes/:laneId/cards/:cardId', boardController.deleteCard);
+boardRoutes.put('/:boardId/lanes/:laneId/cards/:cardId', boardController.updateCard);
+
 boardRoutes.put('/:boardId/lanes/:laneId/cards/:cardId/vote', boardController.voteCard);
 
 const authRoutes = new Router();

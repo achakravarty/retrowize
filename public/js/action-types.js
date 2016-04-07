@@ -5,5 +5,7 @@ module.exports = {
   REMOVE_LANE: 'remove-lane',
   ADD_CARD: 'add-card',
   REMOVE_CARD: 'remove-card',
-  VOTE_CARD: 'vote-card'
-}
+  VOTE_CARD: 'vote-card',
+  UPDATE_LANE_TITLE: 'update-lane-title',
+  UPDATE_CARD_CONTENT: 'update-card-content'
+};

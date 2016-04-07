@@ -24,6 +24,14 @@ var BoardActions = {
      });
    },
 
+   updateLaneTitle:function(laneId, title){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.UPDATE_LANE_TITLE,
+       laneId: laneId,
+       title: title
+     });
+   },
+
    removeLane: function(laneId){
      AppDispatcher.dispatch({
        actionType: ActionTypes.REMOVE_LANE,
@@ -36,6 +44,15 @@ var BoardActions = {
        actionType: ActionTypes.ADD_CARD,
        card: card,
        laneId: laneId
+     });
+   },
+
+   updateCardContent: function(laneId, cardId, content){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.UPDATE_CARD_CONTENT,
+       cardId: cardId,
+       laneId: laneId,
+       content: content
      });
    },
 

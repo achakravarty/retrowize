@@ -25,6 +25,14 @@ class BoardService {
       });
     }
 
+    updateLaneTitle(boardId, laneId, title){
+      return reqwest({
+          url: `/api/boards/${boardId}/lanes/${laneId}`,
+          method: 'put',
+          data: { 'title': title}
+      });
+    }
+
     removeLane(boardId, laneId){
       return reqwest({
           url: `/api/boards/${boardId}/lanes/${laneId}`,
@@ -36,6 +44,14 @@ class BoardService {
       return reqwest({
           url: `/api/boards/${boardId}/lanes/${laneId}/cards`,
           method: 'post',
+          data: { 'content': content}
+      });
+    }
+
+    updateCardContent(boardId, laneId, cardId, content){
+      return reqwest({
+          url: `/api/boards/${boardId}/lanes/${laneId}/cards/${cardId}`,
+          method: 'put',
           data: { 'content': content}
       });
     }
