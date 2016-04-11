@@ -6,7 +6,9 @@ var Header = React.createClass({
   render(){
     return (
       <div className="header">
-        <span className="logo">Retrowize</span>
+        <span className="logo">
+          <a href="/">Retrowize</a>
+        </span>
         <div className="user-info">
           <UserInfo/>
         </div>

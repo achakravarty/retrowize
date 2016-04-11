@@ -16,6 +16,12 @@ class BoardController {
 		this.body = yield boardService.getBoard(this.params.boardId);
 	}
 
+	* archiveBoard(next){
+		let board = yield boardService.archiveBoard(this.params._id);
+		this.body = 'archived';
+		this.status = 200;
+	}
+
 	* getBoards(next) {
 		this.body = yield boardService.getOwnedBoards(this.passport.user.email);
 	}

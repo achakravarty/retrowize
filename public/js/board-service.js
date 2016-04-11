@@ -10,9 +10,23 @@ class BoardService {
       });
     }
 
+    archiveBoard(_id){
+      return reqwest({
+          url: `/api/boards/${_id}`,
+          method: 'delete'
+      });
+    }
+
     getBoard(boardId){
       return reqwest({
           url: `/api/boards/${boardId}`,
+          method: 'get'
+      });
+    }
+
+    getBoards(){
+      return reqwest({
+          url: `/api/boards`,
           method: 'get'
       });
     }
@@ -68,6 +82,10 @@ class BoardService {
           url: `/api/boards/${boardId}/lanes/${laneId}/cards/${cardId}/vote`,
           method: 'put',
       });
+    }
+
+    logout(){
+      window.location.href = '/logout';
     }
 
 }

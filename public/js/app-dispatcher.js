@@ -13,6 +13,12 @@ appDispatcher.register(function(action) {
       }
       break;
 
+    case ActionTypes.ARCHIVE_BOARD:
+      if (action._id) {
+        boardStore.archiveBoard(action._id);
+      }
+      break;
+
     case ActionTypes.FETCH_LANES:
       if (action.boardId) {
         boardStore.fetchLanes(action.boardId);
@@ -59,6 +65,10 @@ appDispatcher.register(function(action) {
       if (action.card && action.laneId !== undefined){
         boardStore.voteCard(action.card, action.laneId);
       }
+      break;
+
+    case ActionTypes.LOGOUT:
+      boardStore.logout();
       break;
     }
 });

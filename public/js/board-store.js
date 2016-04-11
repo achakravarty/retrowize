@@ -12,7 +12,7 @@ class BoardStore extends Events.EventEmitter {
     this._lanes = [];
     this._boardId = '';
     this._user = '';
-    console.log(userService);
+
     userService.getUser().then((resp) => {
       if(resp.email){
         this._user = resp;
@@ -20,8 +20,9 @@ class BoardStore extends Events.EventEmitter {
       }
     });
 
+    this.fetchBoards();
+
     this.socket = Socket.connect();
-    console.log(this.socket);
     this.socket.on(BoardEvents.CHANGE_EVENT, (boardId)=>{
       if(this.getBoardId() === boardId){
         boardService.getBoard(boardId)
@@ -37,6 +38,13 @@ class BoardStore extends Events.EventEmitter {
     });
   }
 
+  fetchBoards(){
+    boardService.getBoards().then((resp) => {
+        this._userBoards = resp;
+        this.emit(BoardEvents.USER_BOARDS_UPDATED);
+    });
+  }
+
   createBoard(boardId){
     boardService.getBoard(boardId)
     .then((resp) => {
@@ -49,9 +57,17 @@ class BoardStore extends Events.EventEmitter {
             this._lanes = resp.lanes;
             this._boardId = resp.id;
             this.emit(BoardEvents.BOARD_LOADED);
+            this.fetchBoards();
           }
         });
       }
+    });
+  }
+
+  archiveBoard(_id){
+    boardService.archiveBoard(_id)
+    .then((resp) => {
+      this.fetchBoards();
     });
   }
 
@@ -72,6 +88,10 @@ class BoardStore extends Events.EventEmitter {
     return this._boardId;
   }
 
+  getBoards(){
+      return this._userBoards;
+  }
+
   getUser(){
     return this._user;
   }
@@ -84,61 +104,52 @@ class BoardStore extends Events.EventEmitter {
 		return _.cloneDeep(this._lanes);
 	}
 
+  updateLanes(board){
+      this._lanes = board.lanes;
+      this.emitChange();
+  }
+
 	addLane(lane) {
     boardService.addLane(this.getBoardId(), lane.title)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
+    .then((resp)=> this.updateLanes(resp));
   }
 
   updateLaneTitle(laneId, title){
     boardService.updateLaneTitle(this.getBoardId(), laneId, title)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
+    .then((resp)=> this.updateLanes(resp));
   }
 
 	removeLane(laneId){
     boardService.removeLane(this.getBoardId(), laneId)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
+    .then((resp)=> this.updateLanes(resp));
 	}
 
 	addCard(card, laneId) {
     boardService.addCard(this.getBoardId(), laneId, card.content)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
+    .then((resp)=> this.updateLanes(resp));
 	}
 
   updateCardContent(laneId, cardId, content){
     boardService.updateCardContent(this.getBoardId(), laneId, cardId, content)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
-  }
+    .then((resp)=> this.updateLanes(resp));
+	}
 
 	voteCard(card, laneId) {
     boardService.voteCard(this.getBoardId(), laneId, card.id)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
+    .then((resp)=> this.updateLanes(resp));
 	}
 
 	removeCard(card, laneId) {
     boardService.removeCard(this.getBoardId(), laneId, card.id)
-    .then((resp) => {
-      this._lanes = resp.lanes;
-      this.emitChange();
-    });
+    .then((resp)=> this.updateLanes(resp));
 	}
+
+  logout(){
+    boardService.logout();
+    this._lanes = [];
+    this._boardId = '';
+    this._user = '';
+  }
 
   emitChange() {
     this.emit(BoardEvents.CHANGE_EVENT);

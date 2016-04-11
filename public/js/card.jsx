@@ -11,6 +11,7 @@ import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import boardActions from './board-actions';
+import Analytics from './analytics.js';
 
 var Card = React.createClass( {
 
@@ -44,6 +45,7 @@ var Card = React.createClass( {
 	},
 
 	editCard(){
+		analytics.trackBoardEvent('edit-card-content', this.props.boardId);
 		boardActions.updateCardContent(this.props.laneId, this.props.card.id, this.state.cardContent);
 		this.setState({inEditMode: false});
 	},

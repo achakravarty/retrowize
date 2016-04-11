@@ -10,6 +10,13 @@ var BoardActions = {
     });
   },
 
+  archiveBoard: function(_id){
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.ARCHIVE_BOARD,
+      _id: _id
+    });
+  },
+
   fetchLanes: function(boardId){
     AppDispatcher.dispatch({
       actionType: ActionTypes.FETCH_LANES,
@@ -69,6 +76,12 @@ var BoardActions = {
        actionType: ActionTypes.VOTE_CARD,
        card: card,
        laneId: laneId
+     });
+   },
+
+   logout: function(){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.LOGOUT
      });
    }
 };

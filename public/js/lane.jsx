@@ -74,6 +74,7 @@ var Lane = React.createClass( {
 	},
 
 	editLaneTitle(){
+		analytics.trackBoardEvent('edit-lane-title', this.props.boardId);
 		boardActions.updateLaneTitle(this.props.id, this.state.laneTitle);
 		this.setState({inEditMode: false});
 	},
@@ -125,7 +126,7 @@ var Lane = React.createClass( {
 						<FloatingActionButton className="add-card" tooltip="Add card" onTouchTap={this.addNewCard} mini={true} disabled={this.state.isAddDisabled}>
 						  <FontIcon className="material-icons">add</FontIcon>
 						</FloatingActionButton>
-						</span>
+					</span>
 				</div>
 
 		</Paper>);
