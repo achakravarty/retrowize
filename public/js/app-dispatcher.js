@@ -13,6 +13,12 @@ appDispatcher.register(function(action) {
       }
       break;
 
+    case ActionTypes.ARCHIVE_BOARD:
+      if (action._id) {
+        boardStore.archiveBoard(action._id);
+      }
+      break;
+
     case ActionTypes.FETCH_LANES:
       if (action.boardId) {
         boardStore.fetchLanes(action.boardId);
@@ -22,6 +28,12 @@ appDispatcher.register(function(action) {
     case ActionTypes.ADD_LANE:
       if (action.lane) {
         boardStore.addLane(action.lane);
+      }
+      break;
+
+    case ActionTypes.UPDATE_LANE_TITLE:
+      if (action.laneId) {
+        boardStore.updateLaneTitle(action.laneId, action.title);
       }
       break;
 
@@ -37,6 +49,12 @@ appDispatcher.register(function(action) {
       }
       break;
 
+    case ActionTypes.UPDATE_CARD_CONTENT:
+      if (action.cardId && action.laneId !== undefined){
+        boardStore.updateCardContent(action.laneId, action.cardId, action.content);
+      }
+      break;
+
     case ActionTypes.REMOVE_CARD:
       if (action.card && action.laneId !== undefined){
         boardStore.removeCard(action.card, action.laneId);
@@ -47,6 +65,10 @@ appDispatcher.register(function(action) {
       if (action.card && action.laneId !== undefined){
         boardStore.voteCard(action.card, action.laneId);
       }
+      break;
+
+    case ActionTypes.LOGOUT:
+      boardStore.logout();
       break;
     }
 });

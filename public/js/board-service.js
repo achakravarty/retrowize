@@ -10,9 +10,23 @@ class BoardService {
       });
     }
 
+    archiveBoard(_id){
+      return reqwest({
+          url: `/api/boards/${_id}`,
+          method: 'delete'
+      });
+    }
+
     getBoard(boardId){
       return reqwest({
           url: `/api/boards/${boardId}`,
+          method: 'get'
+      });
+    }
+
+    getBoards(){
+      return reqwest({
+          url: `/api/boards`,
           method: 'get'
       });
     }
@@ -21,6 +35,14 @@ class BoardService {
       return reqwest({
           url: `/api/boards/${boardId}/lanes`,
           method: 'post',
+          data: { 'title': title}
+      });
+    }
+
+    updateLaneTitle(boardId, laneId, title){
+      return reqwest({
+          url: `/api/boards/${boardId}/lanes/${laneId}`,
+          method: 'put',
           data: { 'title': title}
       });
     }
@@ -40,6 +62,14 @@ class BoardService {
       });
     }
 
+    updateCardContent(boardId, laneId, cardId, content){
+      return reqwest({
+          url: `/api/boards/${boardId}/lanes/${laneId}/cards/${cardId}`,
+          method: 'put',
+          data: { 'content': content}
+      });
+    }
+
     removeCard(boardId, laneId, cardId){
       return reqwest({
           url: `/api/boards/${boardId}/lanes/${laneId}/cards/${cardId}`,
@@ -52,6 +82,10 @@ class BoardService {
           url: `/api/boards/${boardId}/lanes/${laneId}/cards/${cardId}/vote`,
           method: 'put',
       });
+    }
+
+    logout(){
+      window.location.href = '/logout';
     }
 
 }

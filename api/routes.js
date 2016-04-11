@@ -17,11 +17,18 @@ const secure = function* (next) {
 
 const boardRoutes = new Router();
 boardRoutes.post('/', boardController.createBoard);
+boardRoutes.get('/', boardController.getBoards);
 boardRoutes.get('/:boardId', boardController.getBoard);
+boardRoutes.delete('/:_id', boardController.archiveBoard);
+
 boardRoutes.post('/:boardId/lanes', boardController.addLane);
 boardRoutes.delete('/:boardId/lanes/:laneId', boardController.deleteLane);
+boardRoutes.put('/:boardId/lanes/:laneId', boardController.updateLane);
+
 boardRoutes.post('/:boardId/lanes/:laneId/cards', boardController.addCard);
 boardRoutes.delete('/:boardId/lanes/:laneId/cards/:cardId', boardController.deleteCard);
+boardRoutes.put('/:boardId/lanes/:laneId/cards/:cardId', boardController.updateCard);
+
 boardRoutes.put('/:boardId/lanes/:laneId/cards/:cardId/vote', boardController.voteCard);
 
 const authRoutes = new Router();
@@ -44,6 +51,12 @@ router.get('/', secure, function* (next) {
 	yield next;
 });
 
+router.get('/logout', secure, function* (next) {
+	this.logout();
+	this.response.redirect('/');
+	yield next;
+});
+
 router.get('/board', secure, function*(next){
 	yield this.render('main.html');
 });
@@ -51,7 +64,6 @@ router.get('/board', secure, function*(next){
 router.get('/board/:boardId', secure, function*(next){
 	yield this.render('main.html');
 });
-
 
 router.use('/api/boards', secure, boardRoutes.routes(), boardRoutes.allowedMethods());
 router.use('/auth', authRoutes.routes(), authRoutes.allowedMethods());

@@ -10,6 +10,13 @@ var BoardActions = {
     });
   },
 
+  archiveBoard: function(_id){
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.ARCHIVE_BOARD,
+      _id: _id
+    });
+  },
+
   fetchLanes: function(boardId){
     AppDispatcher.dispatch({
       actionType: ActionTypes.FETCH_LANES,
@@ -21,6 +28,14 @@ var BoardActions = {
      AppDispatcher.dispatch({
        actionType: ActionTypes.ADD_LANE,
        lane: lane
+     });
+   },
+
+   updateLaneTitle:function(laneId, title){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.UPDATE_LANE_TITLE,
+       laneId: laneId,
+       title: title
      });
    },
 
@@ -39,6 +54,15 @@ var BoardActions = {
      });
    },
 
+   updateCardContent: function(laneId, cardId, content){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.UPDATE_CARD_CONTENT,
+       cardId: cardId,
+       laneId: laneId,
+       content: content
+     });
+   },
+
    removeCard: function(card, laneId){
      AppDispatcher.dispatch({
        actionType: ActionTypes.REMOVE_CARD,
@@ -52,6 +76,12 @@ var BoardActions = {
        actionType: ActionTypes.VOTE_CARD,
        card: card,
        laneId: laneId
+     });
+   },
+
+   logout: function(){
+     AppDispatcher.dispatch({
+       actionType: ActionTypes.LOGOUT
      });
    }
 };

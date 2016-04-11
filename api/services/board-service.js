@@ -6,11 +6,17 @@ var ObjectId = require('mongoose').Types.ObjectId;
 class BoardService {
 
 	* getBoard(boardId) {
-		return yield Board.findOne({'id': boardId}).exec();
+		return yield Board.findOne({'id': boardId, 'active': true}).exec();
 	}
 
 	* getOwnedBoards(owner) {
-		return yield Board.find({ 'owner': owner }, 'name owner members').exec();
+		return yield Board.find({ 'owner': owner, 'active': true}, {id: 1, _id: 1}).exec();
+	}
+
+	* archiveBoard(_id){
+		let board = yield Board.findById(_id);
+		board.active = false;
+		return yield board.save();
 	}
 
 	* createBoard(board) {
