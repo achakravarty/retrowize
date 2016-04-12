@@ -11,7 +11,7 @@ import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import RaisedButton from 'material-ui/lib/raised-button';
 import TextField from 'material-ui/lib/text-field';
 import boardActions from './board-actions';
-import Analytics from './analytics.js';
+import analytics from './analytics.js';
 
 var Card = React.createClass( {
 
